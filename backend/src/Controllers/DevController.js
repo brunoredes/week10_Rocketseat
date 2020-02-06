@@ -1,6 +1,7 @@
 const axios = require('axios')
 const Dev = require('../models/Dev')
 const ParseStringAsArray = require('../utils/parseStringAsArray')
+const { findConnections, sendMessage } = require('../websocket')
 
 module.exports = {
     async index(req, res) {
@@ -35,9 +36,16 @@ module.exports = {
                     techs: techsArray,
                     location
                 })
+
+                const sendSocketMessageTo = findConnections({
+                    latitude, longitude
+                }, techsArray)
+                console.log(sendSocketMessageTo)
+                sendMessage(sendSocketMessageTo, 'new-dev', dev)
             }
             return res.status(201).json(dev)
-        } catch (err) {
+        }
+        catch (err) {
             return res.status(500).json(err)
         }
     },
@@ -64,16 +72,16 @@ module.exports = {
             type: 'Point',
             coordinates: [longitude, latitude],
         }
-        try{
+        try {
             let updatedDev = await Dev.findOneAndUpdate(github_username, { name, techs, bio, avatar_url, location }, {
                 new: true
             });
-    
+
             return res.json(updatedDev);
         }
-        catch(err){
-            res.status(400).json({message: 'Erro ao atualizar o usuário' + err})
-        }  
+        catch (err) {
+            res.status(400).json({ message: 'Erro ao atualizar o usuário' + err })
+        }
     },
 
     async deleteDev(req, res) {
