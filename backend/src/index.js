@@ -26,7 +26,7 @@ mongoose.connection.on('disconnected', () => {
 mongoose.connection.on('connected', () => {
   console.log('Aplicação conectada do banco de dados! ')
 })
-app.use(cors({ origin: 'http://localhost:3000' }))
+app.use(cors())
 app.use(express.json())
 app.use(routes)
 

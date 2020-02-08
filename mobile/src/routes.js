@@ -3,7 +3,6 @@ import { createStackNavigator } from 'react-navigation-stack'
 
 import Main from './pages/Main'
 import Profile from './pages/Profile'
-import { forFadeFromBottomAndroid } from 'react-navigation-stack/lib/typescript/src/vendor/TransitionConfigs/CardStyleInterpolators'
 
 const Routes = createAppContainer(
     createStackNavigator({

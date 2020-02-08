@@ -15,13 +15,14 @@ module.exports = {
 
         let dev = await Dev.findOne({ github_username })
 
+        const techsArray = ParseStringAsArray(techs)
         try {
             if (!dev) {
                 const apiResponse = await axios.get(`https://api.github.com/users/${github_username}`)
 
                 const { name = login, avatar_url, bio } = apiResponse.data
-
-                const techsArray = ParseStringAsArray(techs)
+                
+                techsArray
 
                 const location = {
                     type: 'Point',
